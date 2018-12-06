@@ -661,6 +661,27 @@
             }
           },
           "spec": {
+            "initContainers": [
+              {
+                "image": "busybox",
+                "name": "init-gogs-config",
+                "volumeMounts": [
+                  {
+                    "name": "gogs-etc",
+                    "mountPath": "/etc/gogs/conf"
+                  },
+                  {
+                    "name": "gogs-config",
+                    "mountPath": "/etc/gogs-config"
+                  }
+                ],
+                "command": [
+                  "cp",
+                  "/etc/gogs-config/app.ini",
+                  "/etc/gogs/conf/app.ini"
+                ]
+              }
+            ],
             "containers": [
               {
                 "image": " ",
@@ -711,7 +732,7 @@
                     "mountPath": "/opt/gogs/data"
                   },
                   {
-                    "name": "gogs-config",
+                    "name": "gogs-etc",
                     "mountPath": "/etc/gogs/conf"
                   }
                 ]
@@ -720,6 +741,10 @@
             "volumes": [
               {
                 "name": "gogs-data",
+                "emptyDir": {}
+              },
+              {
+                "name": "gogs-etc",
                 "emptyDir": {}
               },
               {
